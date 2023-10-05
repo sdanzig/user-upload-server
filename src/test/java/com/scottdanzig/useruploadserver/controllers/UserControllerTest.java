@@ -1,4 +1,4 @@
-package com.scottdanzig.useruploadserver;
+package com.scottdanzig.useruploadserver.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,13 +15,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
-  @Autowired
-  private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-  @Test
-  public void testUploadFile() throws Exception {
-    MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "content".getBytes());
-    this.mockMvc.perform(multipart("/api/users").file(file))
+    @Test
+    public void testUploadFile() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "content".getBytes());
+        this.mockMvc.perform(multipart("/api/users").file(file))
                 .andExpect(status().isOk());
-  }
+    }
+
+    // Test uploading a file with no content
+    @Test
+    public void testUploadFileNoContent() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "".getBytes());
+        this.mockMvc.perform(multipart("/api/users").file(file))
+                .andExpect(status().isBadRequest());
+    }
 }
