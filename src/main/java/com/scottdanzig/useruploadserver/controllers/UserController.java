@@ -21,8 +21,7 @@ public class UserController {
   @PostMapping
   public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
     boolean successful = userService.uploadFile(file);;
-    // Parse CSV and validate
-    // Save to database
+
     if(!successful) {
       return ResponseEntity.badRequest().body("File upload failed");
     }
