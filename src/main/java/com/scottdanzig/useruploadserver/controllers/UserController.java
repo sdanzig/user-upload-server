@@ -5,14 +5,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.scottdanzig.useruploadserver.services.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+  
+  @Autowired
+  private UserService userService;
+ 
   @PostMapping
   public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-    boolean successful = true;
+    boolean successful = userService.uploadFile(file);;
     // Parse CSV and validate
     // Save to database
     if(!successful) {
