@@ -60,3 +60,19 @@ To run the unit tests, execute:
 ```
 
 The tests are configured to use the JUnit Platform.
+
+## Design Pattern Usage and Justification
+
+MVC (Model-View-Controller): I'm using MVC where User is the Model, UserController is the Controller, and the REST API client acts as the View. This makes my code organized and easier to update later.
+
+Repository Pattern: I've implemented UserRepository to manage data access. It serves as a middleman between the business logic and the database, which simplifies running queries or tests.
+
+Dependency Injection: I'm using Spring's @Autowired to inject UserService into UserController. This makes the code more modular and testing easier.
+
+Singleton Pattern: By using Spring's @Service and @RestController, I ensure there’s only a single instance of each component. This is a resource-efficient way to have centralized control.
+
+Factory Pattern: I use LoggerFactory.getLogger() to manage logging. It centralizes the creation of loggers, improving maintainability.
+
+Builder Pattern: This made an appearance when building API responses, which helps with readability and is less error prone.
+
+Inversion of Control (IoC): Spring Framework is taking care of a lot of object creation and configuration, speeding up development.
