@@ -43,10 +43,10 @@ public class UserServiceImpl implements UserService {
                 // Log message with all the fields
                 log.info("Fields: first name=" + fields[0] + ", last name=" + fields[1] + ", email=" + fields[2] + ", phone=" + fields[3]);
                 User user = new User();
-                user.setFirstName(fields[0]);
-                user.setLastName(fields[1]);
-                user.setEmail(fields[2]);
-                user.setPhone(fields[3]);
+                user.setFirstName(fields[0].trim());
+                user.setLastName(fields[1].trim());
+                user.setEmail(fields[2].trim());
+                user.setPhone(fields[3].trim());
                 userList.add(user);
                 log.info("User: " + user.toString());
             }
