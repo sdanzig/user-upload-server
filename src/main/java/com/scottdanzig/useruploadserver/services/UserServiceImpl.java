@@ -70,7 +70,8 @@ public class UserServiceImpl implements UserService {
             }
 
             userRepository.saveAll(userList);
-            log.info("Saved all users, returning true");
+            log.info("Saved all users");
+            _logAllUsers();
             return;
 
         } catch (InputDataException idve) {
@@ -88,6 +89,20 @@ public class UserServiceImpl implements UserService {
         }
         if (!pattern.matcher(fieldValue).matches()) {
             throw new InputDataException(fieldName + " is in an invalid format.");
+        }
+    }
+
+    // Public method that calls the private one
+    public void logAllUsers() {
+        _logAllUsers();
+    }
+
+    // Private method to log all users
+    private void _logAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        log.info("Logging all users from the database:");
+        for (User user : allUsers) {
+            log.info(user.toString());
         }
     }
 }
