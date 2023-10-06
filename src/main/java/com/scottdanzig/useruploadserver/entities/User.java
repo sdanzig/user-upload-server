@@ -1,12 +1,14 @@
 package com.scottdanzig.useruploadserver.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +17,10 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
+
+    public Long getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -30,6 +36,10 @@ public class User {
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setId(Long id) { 
+        this.id = id;
     }
 
     public void setFirstName(String firstName) {

@@ -12,8 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scottdanzig.useruploadserver.entities.User;
 import com.scottdanzig.useruploadserver.repositories.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class UserServiceImpl implements UserService {
+    //Initialize slf4j logger
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserRepository userRepository;
 
@@ -25,25 +31,34 @@ public class UserServiceImpl implements UserService {
 
             // TODO - Consider saving users in batches
             while ((line = br.readLine()) != null) {
+                log.info("Line: " + line);
+                if (line.isEmpty()) {
+                    continue;
+                }
                 if (header) {
                     header = false;
                     continue;
                 }
                 String[] fields = line.split(",");
+                // Log message with all the fields
+                log.info("Fields: first name=" + fields[0] + ", last name=" + fields[1] + ", email=" + fields[2] + ", phone=" + fields[3]);
                 User user = new User();
                 user.setFirstName(fields[0]);
                 user.setLastName(fields[1]);
                 user.setEmail(fields[2]);
                 user.setPhone(fields[3]);
                 userList.add(user);
+                log.info("User: " + user.toString());
             }
+            log.info("User list size: " + userList.size());
             if (userList.isEmpty()) {
                 return false;
             }
             userRepository.saveAll(userList);
+            log.info("Saved all users, returning true");
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error uploading file: " + e.getMessage(), e);
             return false;
         }
     }
