@@ -7,7 +7,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
+import com.scottdanzig.useruploadserver.exceptions.InputDataException;
 import com.scottdanzig.useruploadserver.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +28,25 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    // Test uploading a file with content
+    // Test uploading a valid file
     @Test
     public void testUploadFile() throws Exception {
-        Mockito.when(userService.uploadFile(Mockito.any())).thenReturn(true);
-
         MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "content".getBytes());
-        this.mockMvc.perform(multipart("/api/users").file(file))
-                .andExpect(status().isOk());
+        
+        ResultActions perform = this.mockMvc.perform(multipart("/api/users").file(file));
+        
+        perform.andExpect(status().isOk());
     }
 
-    // Test uploading a file with no content
+    // Test uploading an invalid file
     @Test
-    public void testUploadFileNoContent() throws Exception {
-        Mockito.when(userService.uploadFile(Mockito.any())).thenReturn(false);
-        MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "".getBytes());
-        this.mockMvc.perform(multipart("/api/users").file(file))
-                .andExpect(status().isBadRequest());
+    public void testUploadFileInvalidData() throws Exception {
+        Mockito.doThrow(InputDataException.class).when(userService).uploadFile(Mockito.any());
+
+        MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "invalid_content".getBytes());
+        
+        ResultActions perform = this.mockMvc.perform(multipart("/api/users").file(file));
+        
+        perform.andExpect(status().isBadRequest());
     }
 }

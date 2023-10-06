@@ -2,6 +2,8 @@ package com.scottdanzig.useruploadserver.services;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scottdanzig.useruploadserver.exceptions.InputDataException;
+
 public interface UserService {
-    boolean uploadFile(MultipartFile file);
+    void uploadFile(MultipartFile file) throws InputDataException;
 }
