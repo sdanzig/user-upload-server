@@ -25,13 +25,18 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  /* Upload a CSV file containing user data
+    * 
+    * @param file The CSV file containing user data
+    * @return A ResponseEntity containing a message indicating whether the upload was successful
+    */
   @CrossOrigin(origins = "http://localhost:4200")
   @PostMapping
   public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
     log.info("Received file: " + file.getOriginalFilename());
 
     try {
-      userService.uploadFile(file);
+      userService.storeUsersInCSV(file);
 
       log.info("File upload successful");
       return ResponseEntity.ok(Map.of("message", "File uploaded"));

@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void uploadFile(MultipartFile file) throws InputDataException {
+    public void storeUsersInCSV(MultipartFile file) throws InputDataException {
         List<User> userList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             String line;

@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-
+// Entity class for storing user data
 @Entity
 @Table(name = "users")
 public class User {

@@ -41,7 +41,7 @@ public class UserControllerTest {
     // Test uploading an invalid file
     @Test
     public void testUploadFileInvalidData() throws Exception {
-        Mockito.doThrow(InputDataException.class).when(userService).uploadFile(Mockito.any());
+        Mockito.doThrow(InputDataException.class).when(userService).storeUsersInCSV(Mockito.any());
 
         MockMultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", "invalid_content".getBytes());
         

@@ -34,7 +34,7 @@ public class UserServiceImplTest {
 
         when(userRepositoryMock.saveAll(anyList())).thenReturn(new ArrayList<>());
 
-        userService.uploadFile(file);
+        userService.storeUsersInCSV(file);
 
         verify(userRepositoryMock).saveAll(anyList());
     }
@@ -44,7 +44,7 @@ public class UserServiceImplTest {
         MultipartFile emptyFile = new MockMultipartFile("file", "test.csv", "text/csv", "".getBytes());
 
         assertThrows(InputDataException.class, () -> {
-            userService.uploadFile(emptyFile);
+            userService.storeUsersInCSV(emptyFile);
         });
 
         verify(userRepositoryMock, never()).saveAll(anyList());
@@ -57,7 +57,7 @@ public class UserServiceImplTest {
         MultipartFile file = new MockMultipartFile("file", "test.csv", "text/csv", content.getBytes());
 
         assertThrows(InputDataException.class, () -> {
-            userService.uploadFile(file);
+            userService.storeUsersInCSV(file);
         });
 
         verify(userRepositoryMock, never()).saveAll(anyList());
